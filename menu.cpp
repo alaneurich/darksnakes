@@ -38,11 +38,33 @@ void makeScreenColorful () {
     if(isStarting) {
         int x,y;
 
+        loeschen();
+
         groesse (60, 60);
         formen ("s");
-        farben (WHITE);
+        farben (BLACK);
 
+        fontSize(120);
         text2(30, 30, "Dark Snakes");
+        textFarbe2(30, 30, WHITE);
+
+        fontSize(30);
+        text2(30, 22, "Start Game");
+        textFarbe2(30, 22, WHITE);
+
+        fontSize(30);
+        text2(30, 15, "Playercount: 1");
+        textFarbe2(30, 15, WHITE);
+
+
+        text2(30, 12, "Enemycount : 4");
+        textFarbe2(30, 12, WHITE);
+
+        text2(30, 9, "Difficulty: 100");        //easy, medium, hard
+        textFarbe2(30, 9, WHITE);
+
+        text2(30, 4, "Quit Game");
+        textFarbe2(30, 4, WHITE);
 
         isStarting = false;
     }
