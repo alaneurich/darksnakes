@@ -32,6 +32,7 @@ void rahmen(int f) {
 }
 void loeschen() {
     sprintf_s(nachricht, ">>c\n");
+    sendMessage( nachricht );
     sprintf_s(nachricht, ">>clearAllText\n");
     sendMessage( nachricht );
 }
