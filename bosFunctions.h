@@ -20,6 +20,7 @@ void symbolGroesse(int i, double s);
 void symbolGroesse2(int i, int j, double s); 
 void text(int i, char* f);
 void text2(int i, int j, char* f);
+void textFarbe2(int i, int j, int farbe);
 void zeichen(int i, char c);
 void zeichen2(int i, int j, char c);
 void statusText( char * s ) ;
