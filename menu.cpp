@@ -9,12 +9,12 @@
 #include "input.h"
 #include "stdafx.h"
 
+int isStarting = true;
 char *menuItems[] = {"Spiel starten", "Blaa", "Bliii", "Blubb"};
 int currMenuItem = 0;
 int menuSize = 4;
 
-void drawMenuScreen(char *input) {
-    //TODO Actually show a Menu.
+void handleInput(char *input) {
     if(strlen(input) > 0) {
         MenuInput inputDirection = convertInputToUpAndDown(input);
         if(inputDirection == FALSE_INPUT) {
@@ -32,6 +32,27 @@ void drawMenuScreen(char *input) {
 
         }
     }
+}
+
+void makeScreenColorful () {
+    if(isStarting) {
+        int x,y;
+
+        groesse (60, 60);
+        formen ("s");
+        farben (WHITE);
+
+        text2(30, 30, "Dark Snakes");
+
+        isStarting = false;
+    }
+}
+
+void drawMenuScreen(char *input) {
+    //TODO Actually show a Menu.
+
+    makeScreenColorful();
+    handleInput(input);
 }
 
 void startGame() {
