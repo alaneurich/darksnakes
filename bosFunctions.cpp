@@ -72,6 +72,12 @@ void symbolGroesse2(int i, int j, double s) {
     sprintf_s(nachricht, ">>#s %d %d %g\n", i, j, s);
     sendMessage( nachricht );
 }
+
+void fontSize(int size) {
+    sprintf_s(nachricht, ">>fontsize %d\n", size);
+    sendMessage( nachricht );
+}
+
 void text(int i, char* f) {
     sprintf_s(nachricht, ">>T %d %s\n", i, f);
     sendMessage( nachricht );
