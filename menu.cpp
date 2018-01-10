@@ -9,7 +9,7 @@
 void drawMenuScreen(char *input) {
     //TODO Actually show a Menu.
 
-    setGameVars(1, 4, 100);
+    setGameVars(2, 0, 100);
     startGame();
 }
 
