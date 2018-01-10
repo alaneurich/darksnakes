@@ -11,6 +11,14 @@
 
 long long lastFrameTime = 0;
 
+void crossPlatformSleep(int sleepTime) {
+#ifdef _WIN32
+    Sleep(static_cast<DWORD>(sleepTime / 1000));
+#else
+    usleep(pollingDelay);  /* sleep for 100 milliSeconds */
+#endif
+}
+
 int main() {
     srand(time(NULL));
     char *currInput;
@@ -30,7 +38,7 @@ int main() {
             }
             lastFrameTime = timeMs();
         } else {
-            Sleep((lastFrameTime + 16000 - currTime) / 1000);
+            crossPlatformSleep(lastFrameTime + 16000 - currTime);
         }
     }
     return 0;
