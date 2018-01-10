@@ -80,6 +80,11 @@ void text2(int i, int j, char* f) {
     sprintf_s(nachricht, ">>#T %d %d %s\n", i, j, f);
     sendMessage( nachricht );
 }
+void textFarbe2(int i, int j, int farbe) {
+    sprintf_s(nachricht, ">>#TC %d %d %d\n", i, j, farbe);
+    sendMessage(nachricht);
+}
+
 void zeichen(int i, char c) {
     if( c >= 32 ) {
         sprintf_s(nachricht, ">>T %d %c\n", i, c);
