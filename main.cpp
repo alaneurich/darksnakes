@@ -14,8 +14,10 @@ long long lastFrameTime = 0;
 int main() {
     srand(time(NULL));
     char *currInput;
+    long long currTime = 0;
     while(isMenuShowing || isGameStarted || isGameOverScreenShowing) {
-        if (timeMs() - lastFrameTime >= SIXTY_FPS_IN_MS) {
+        currTime = timeMs();
+        if (currTime - lastFrameTime >= SIXTY_FPS_IN_MS) {
             currInput = abfragen();
             if(isMenuShowing) {
                 drawMenuScreen(currInput);
@@ -27,6 +29,8 @@ int main() {
                 drawGameOverScreen(currInput);
             }
             lastFrameTime = timeMs();
+        } else {
+            Sleep((lastFrameTime + 16000 - currTime) / 1000);
         }
     }
     return 0;
