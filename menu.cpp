@@ -10,14 +10,18 @@
 #include "stdafx.h"
 #include "gameOver.h"
 
+int PlayerCount = 1;
+int EnemyCount = 4;
+int Difficulty = 150;
+
+
 int isStarting = true;
 char *menuItems[] = {"Spiel starten", "Blaa", "Bliii", "Blubb"};
 int currMenuItem = 0;               // Current menu item (to navigate through the menu
 int lastMenuItem = 0;               // Last menu item (for deleting no longer used triangles)
 int menuSize = 4;
 
-void handleInput(char *input) {
-
+int handleInput(char *input) {
     if (strlen(input) > 0) {
         MenuInput inputDirection = convertInputToUpAndDown(input);
         if (inputDirection == FALSE_INPUT) {
@@ -26,18 +30,43 @@ void handleInput(char *input) {
             if (currMenuItem != 0) currMenuItem--;
         } else if (inputDirection == ARROW_DOWN) {
             currMenuItem++;
-            if (currMenuItem >= 4) currMenuItem = 0;
+            if (currMenuItem >= 5) currMenuItem = 0;
         } else if (inputDirection == ENTER) {
             if (currMenuItem == 0) {
-                isStarting = true;
+                setGameVars(PlayerCount, EnemyCount, Difficulty);
                 startGame();
+                isStarting = true;
+                return true;
             }
             if (currMenuItem == 4) {
-                // End Game
                 stopGame();
+                return true;
+            }
+        }
+        else if (inputDirection == ARROW_LEFT) {
+            if (currMenuItem == 1) {
+                if (PlayerCount != 1) PlayerCount--;
+            }
+            if (currMenuItem == 2) {
+                if (EnemyCount != 0) EnemyCount--;
+            }
+            if (currMenuItem == 3){
+                if (Difficulty != 150) Difficulty+=50;
+            }
+        }
+        else if (inputDirection == ARROW_RIGHT){
+            if(currMenuItem == 1) {
+                if (PlayerCount != 2) PlayerCount++;
+            }
+            if(currMenuItem == 2) {
+                if (EnemyCount != 6) EnemyCount++;
+            }
+            if(currMenuItem == 3){
+                if (Difficulty != 50) Difficulty-=50;
             }
         }
     }
+    return false;
 }
 
 void makeScreenColorful () {
@@ -50,6 +79,7 @@ void makeScreenColorful () {
         loeschen();
 
         groesse (60, 60);
+
         formen ("s");
         farben (BLACK);
 
@@ -63,15 +93,27 @@ void makeScreenColorful () {
 
     fontSize(120);
     text2(30, 30, "Dark Snakes");
+    textFarbe2(30, 30, WHITE);
 
     fontSize(30);
     text2(30, 19, "Start Game");
 
-    text2(30, 15, "Playercount: 1");
+    int isPlayercountText = currMenuItem == 1;
+    char playercountText[256];
+    snprintf(playercountText, sizeof(playercountText), "%sPlayercount: %d%s",
+             isPlayercountText ? "< " : "",
+             PlayerCount,
+             isPlayercountText ? " >" : "");
+    text2(30, 15, playercountText);
 
-    text2(30, 11, "Enemycount : 4");
+    char enemycountText[256];
+    snprintf(enemycountText, sizeof(enemycountText), "Enemycount: %d", EnemyCount);
+    text2(30, 11, enemycountText);
 
-    text2(30, 7, "Difficulty: easy");        //easy, medium, hard
+    char difficultyText[256];
+    snprintf(difficultyText, sizeof(difficultyText), "Difficulty: %s",
+        Difficulty == 150 ? "Easy" : Difficulty == 100 ? "Medium" : "Hard");
+    text2(30, 7, difficultyText);
 
     text2(30, 3, "Quit Game");
 
@@ -131,7 +173,7 @@ void highlightOption (){
 
 void drawMenuScreen(char *input) {
     //TODO Actually show a Menu.
-    handleInput(input);
+    if(handleInput(input)) return;
     makeScreenColorful();
     highlightOption();
 }
