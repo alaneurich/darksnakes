@@ -5,7 +5,7 @@
 #ifndef DARKSNAKESTEST_GAMEPROPERTIES_H
 #define DARKSNAKESTEST_GAMEPROPERTIES_H
 
-#define BOARD_SIZE 40
+#define BOARD_SIZE 60
 
 #include "snakeTypes.h"
 

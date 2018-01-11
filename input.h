@@ -7,6 +7,7 @@
 
 #include "snakeTypes.h"
 
+MenuInput convertInputToUpAndDown(const char *input);
 Direction convertInputToNewDirection(const char *input);
 int getPlayerIndexByInput(const char *input);
 int isCollidingDirections(Direction oldDirection, Direction newDirection);

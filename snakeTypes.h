@@ -7,6 +7,15 @@
 
 #include "gameProperties.h"
 
+enum MenuInput {
+    ARROW_UP,
+    ARROW_DOWN,
+    ARROW_RIGHT,
+    ARROW_LEFT,
+    ENTER,
+    FALSE_INPUT
+};
+
 enum Direction {
     UP,
     DOWN,
