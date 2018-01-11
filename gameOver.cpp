@@ -4,6 +4,16 @@
 
 #include "gameOver.h"
 #include "gameStates.h"
+#include "stdafx.h"
+
+void gameOver (){
+    int x,y;
+
+    groesse(60,60);
+    farben (BLACK);
+
+    text2(30, 30, "YOU DIED");
+}
 
 void drawGameOverScreen(char *input) {
     //TODO Actually show Game Over Screen.
