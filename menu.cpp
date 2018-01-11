@@ -11,7 +11,8 @@
 
 int isStarting = true;
 char *menuItems[] = {"Spiel starten", "Blaa", "Bliii", "Blubb"};
-int currMenuItem = 0;
+int currMenuItem = 0;               // Current menu item (to navigate through the menu
+int lastMenuItem = 0;               // Last menu item (for deleting no longer used triangles)
 int menuSize = 4;
 
 int xVarTriLD = 38;                 // x value for triangle tld at Player count
@@ -30,19 +31,18 @@ void handleInput(char *input) {
             if(currMenuItem != 0)  currMenuItem--;
         }
         else if(inputDirection == ARROW_DOWN) {
-
+            if (currMenuItem == 4) {}
             currMenuItem++;
         }
         else if(inputDirection == ENTER) {
-            if(inputDirection == ENTER && currMenuItem == 0) {
+            if(currMenuItem == 0) {
                 startGame();
             }
-            if(inputDirection == ENTER && currMenuItem == 4){
-                //End Game
+            if(currMenuItem == 4){
+                // End Game
             }
         }
     }
-}
 
 void makeScreenColorful () {
     if(isStarting) {
@@ -125,6 +125,8 @@ void drawTriangleToNavigate(int currMenuItem){
 
 void deleteTriangleForNoLongerUsedOption (int currMenuItem){
 
+    //Möglichkeit lastMenuItem
+
     form2(xVarTriLD, yVarTri, "none");    // triangle left down on the right side of the option
     form2(xVarTriLD, yVarTri-1, "none");    // triangle left up on the right side of the option
     form2(xVarTriRD, yVarTri, "none");    // triangle right down on the right side of the option
@@ -188,8 +190,6 @@ void highlightOption (){
                 textFarbe2(30, yVar - 16, RED);
 
                 break;}
-            default:
-                currMenuItem = 0;
         }
     }
 
