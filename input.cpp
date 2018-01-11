@@ -10,6 +10,8 @@
 MenuInput convertInputToUpAndDown(const char *input) {
     if (strcmp(input, "$ 38 Oben") == 0 || strcmp(input, "$ 87 W") == 0) return ARROW_UP;
     if (strcmp(input, "$ 40 Unten") == 0 || strcmp(input, "$ 83 S") == 0) return ARROW_DOWN;
+    if (strcmp(input, "$ 39 Rechts") == 0 || strcmp(input, "$ 68 D") == 0) return ARROW_RIGHT;
+    if (strcmp(input, "$ 37 Links") == 0 || strcmp(input, "$ 65 A") == 0) return ARROW_LEFT;
     if (strcmp(input, "$ 10 Eingabe") == 0) return ENTER;
     return FALSE_INPUT;
 }
