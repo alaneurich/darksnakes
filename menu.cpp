@@ -84,10 +84,7 @@ void makeScreenColorful () {
     }
 }
 
-
-
 void drawTriangleToNavigate(int currMenuItem){
-
 
     switch (currMenuItem) {             // defines yVarTri for every menu option that is highlighted
         case 1: {                       // and gives it to the code below the switch-statement
@@ -112,7 +109,7 @@ void drawTriangleToNavigate(int currMenuItem){
     hintergrund2(xVarTriLD, yVarTri, BLACK);
     farbe2(xVarTriLD, yVarTri, YELLOW);
 
-    form2(xVarTriLD, yVarTri-1, "tlu");    // triangle left down on the right side of the option
+    form2(xVarTriLD, yVarTri-1, "tlu");    // triangle left up on the right side of the option
     hintergrund2(xVarTriLD, yVarTri-1, BLACK);
     farbe2(xVarTriLD, yVarTri-1, YELLOW);
 
@@ -120,7 +117,7 @@ void drawTriangleToNavigate(int currMenuItem){
     hintergrund2(xVarTriRD, yVarTri, BLACK);
     farbe2(xVarTriRD, yVarTri, YELLOW);
 
-    form2(xVarTriRD, yVarTri-1, "tru");    // triangle right down on the right side of the option
+    form2(xVarTriRD, yVarTri-1, "tru");    // triangle right up on the right side of the option
     hintergrund2(xVarTriRD, yVarTri-1, BLACK);
     farbe2(xVarTriRD, yVarTri-1, YELLOW);
 
@@ -169,6 +166,7 @@ void highlightOption (){
                 textFarbe2(30, yVar - 16, WHITE);
 
                 drawTriangleToNavigate(2);
+                deleteTriangleForNoLongerUsedOption(2);
 
                 break;}
             case 3:{                         //Difficulty level
@@ -179,6 +177,7 @@ void highlightOption (){
                 textFarbe2(30, yVar - 16, WHITE);
 
                 drawTriangleToNavigate(3);
+                deleteTriangleForNoLongerUsedOption(3);
 
                 break;}
             case 4:{                         //Quit Game
