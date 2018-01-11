@@ -11,11 +11,21 @@
 
 long long lastFrameTime = 0;
 
+void crossPlatformSleep(int sleepTime) {
+#ifdef _WIN32
+    Sleep(static_cast<DWORD>(sleepTime / 1000));
+#else
+    usleep(pollingDelay);  /* sleep for 100 milliSeconds */
+#endif
+}
+
 int main() {
     srand(time(NULL));
     char *currInput;
+    long long currTime = 0;
     while(isMenuShowing || isGameStarted || isGameOverScreenShowing) {
-        if (timeMs() - lastFrameTime >= SIXTY_FPS_IN_MS) {
+        currTime = timeMs();
+        if (currTime - lastFrameTime >= SIXTY_FPS_IN_MS) {
             currInput = abfragen();
             if(isMenuShowing) {
                 drawMenuScreen(currInput);
@@ -27,6 +37,8 @@ int main() {
                 drawGameOverScreen(currInput);
             }
             lastFrameTime = timeMs();
+        } else {
+            crossPlatformSleep(lastFrameTime + 16000 - currTime);
         }
     }
     return 0;
