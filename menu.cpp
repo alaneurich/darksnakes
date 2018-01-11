@@ -20,104 +20,7 @@ char *menuItems[] = {"Spiel starten", "Blaa", "Bliii", "Blubb"};
 int currMenuItem = 0;               // Current menu item (to navigate through the menu
 int lastMenuItem = 0;               // Last menu item (for deleting no longer used triangles)
 int menuSize = 4;
-
-int handleInput(char *input) {
-    if (strlen(input) > 0) {
-        MenuInput inputDirection = convertInputToUpAndDown(input);
-        if (inputDirection == FALSE_INPUT) {
-
-        } else if (inputDirection == ARROW_UP) {
-            if (currMenuItem != 0) currMenuItem--;
-        } else if (inputDirection == ARROW_DOWN) {
-            currMenuItem++;
-            if (currMenuItem >= 5) currMenuItem = 0;
-        } else if (inputDirection == ENTER) {
-            if (currMenuItem == 0) {
-                setGameVars(PlayerCount, EnemyCount, Difficulty);
-                startGame();
-                isStarting = true;
-                return true;
-            }
-            if (currMenuItem == 4) {
-                stopGame();
-                return true;
-            }
-        }
-        else if (inputDirection == ARROW_LEFT) {
-            if (currMenuItem == 1) {
-                if (PlayerCount != 1) PlayerCount--;
-            }
-            if (currMenuItem == 2) {
-                if (EnemyCount != 0) EnemyCount--;
-            }
-            if (currMenuItem == 3){
-                if (Difficulty != 150) Difficulty+=50;
-            }
-        }
-        else if (inputDirection == ARROW_RIGHT){
-            if(currMenuItem == 1) {
-                if (PlayerCount != 2) PlayerCount++;
-            }
-            if(currMenuItem == 2) {
-                if (EnemyCount != 6) EnemyCount++;
-            }
-            if(currMenuItem == 3){
-                if (Difficulty != 50) Difficulty-=50;
-            }
-        }
-    }
-    return false;
-}
-
-void makeScreenColorful () {
-    int x;
-    int yVar = 19;                          // Height of the texts on screen
-
-    if(isStarting) {
-
-
-        loeschen();
-
-        groesse (60, 60);
-
-        formen ("s");
-        farben (BLACK);
-
-        for(x=3; x<57; x++){
-            farbe2(x, 25, WHITE);
-            symbolGroesse2(x, 25, 0.3);
-        }
-
-        isStarting = false;
-    }
-
-    fontSize(120);
-    text2(30, 30, "Dark Snakes");
-    textFarbe2(30, 30, WHITE);
-
-    fontSize(30);
-    text2(30, 19, "Start Game");
-
-    int isPlayercountText = currMenuItem == 1;
-    char playercountText[256];
-    snprintf(playercountText, sizeof(playercountText), "%sPlayercount: %d%s",
-             isPlayercountText ? "< " : "",
-             PlayerCount,
-             isPlayercountText ? " >" : "");
-    text2(30, 15, playercountText);
-
-    char enemycountText[256];
-    snprintf(enemycountText, sizeof(enemycountText), "Enemycount: %d", EnemyCount);
-    text2(30, 11, enemycountText);
-
-    char difficultyText[256];
-    snprintf(difficultyText, sizeof(difficultyText), "Difficulty: %s",
-        Difficulty == 150 ? "Easy" : Difficulty == 100 ? "Medium" : "Hard");
-    text2(30, 7, difficultyText);
-
-    text2(30, 3, "Quit Game");
-
-}
+int hadVariableChange = true;
 
 void highlightOption (){
     int x;
@@ -171,11 +74,135 @@ void highlightOption (){
 
 }
 
+int handleInput(char *input) {
+    if (strlen(input) > 0) {
+        MenuInput inputDirection = convertInputToUpAndDown(input);
+        if (inputDirection == FALSE_INPUT) {
+
+        } else if (inputDirection == ARROW_UP) {
+            if (currMenuItem != 0) {
+                currMenuItem--;
+                highlightOption();
+            }
+        } else if (inputDirection == ARROW_DOWN) {
+            currMenuItem++;
+            if (currMenuItem >= 5) currMenuItem = 0;
+            highlightOption();
+        } else if (inputDirection == ENTER) {
+            if (currMenuItem == 0) {
+                setGameVars(PlayerCount, EnemyCount, Difficulty);
+                startGame();
+                isStarting = true;
+                return true;
+            }
+            if (currMenuItem == 4) {
+                stopGame();
+                return true;
+            }
+        }
+        else if (inputDirection == ARROW_LEFT) {
+            if (currMenuItem == 1) {
+                if (PlayerCount != 1) {
+                    PlayerCount--;
+                    hadVariableChange = true;
+                }
+            }
+            if (currMenuItem == 2) {
+                if (EnemyCount != 0) {
+                    EnemyCount--;
+                    hadVariableChange = true;
+                }
+            }
+            if (currMenuItem == 3){
+                if (Difficulty != 150)
+                {
+                    Difficulty+=50;
+                    hadVariableChange = true;
+                }
+            }
+        }
+        else if (inputDirection == ARROW_RIGHT){
+            if(currMenuItem == 1) {
+                if (PlayerCount != 2) {
+                    PlayerCount++;
+                    hadVariableChange = true;
+                }
+            }
+            if(currMenuItem == 2) {
+                if (EnemyCount != 6) {
+                    EnemyCount++;
+                    hadVariableChange = true;
+                }
+            }
+            if(currMenuItem == 3){
+                if (Difficulty != 50) {
+                    Difficulty-=50;
+                    hadVariableChange = true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void makeScreenColorful () {
+    int x;
+    int yVar = 19;                          // Height of the texts on screen
+
+    if(isStarting) {
+        loeschen();
+
+        groesse (60, 60);
+
+        formen ("s");
+        farben (BLACK);
+
+        for(x=3; x<57; x++){
+            farbe2(x, 25, WHITE);
+            symbolGroesse2(x, 25, 0.3);
+        }
+
+        fontSize(120);
+        text2(30, 30, "Dark Snakes");
+        textFarbe2(30, 30, WHITE);
+
+        fontSize(30);
+        text2(30, 19, "Start Game");
+
+        text2(30, 3, "Quit Game");
+
+        isStarting = false;
+    }
+
+    if(hadVariableChange) {
+        fontSize(30);
+        int isPlayercountText = currMenuItem == 1;
+        char playercountText[256];
+        snprintf(playercountText, sizeof(playercountText), "%sPlayercount: %d%s",
+                 isPlayercountText ? "< " : "",
+                 PlayerCount,
+                 isPlayercountText ? " >" : "");
+        text2(30, 15, playercountText);
+
+        char enemycountText[256];
+        snprintf(enemycountText, sizeof(enemycountText), "Enemycount: %d", EnemyCount);
+        text2(30, 11, enemycountText);
+
+        char difficultyText[256];
+        snprintf(difficultyText, sizeof(difficultyText), "Difficulty: %s",
+                 Difficulty == 150 ? "Easy" : Difficulty == 100 ? "Medium" : "Hard");
+        text2(30, 7, difficultyText);
+        hadVariableChange = false;
+    }
+
+    if(isStarting) highlightOption();
+
+}
+
 void drawMenuScreen(char *input) {
     //TODO Actually show a Menu.
     if(handleInput(input)) return;
     makeScreenColorful();
-    highlightOption();
 }
 
 void startGame() {
