@@ -8,6 +8,7 @@
 #include "menu.h"
 #include "input.h"
 #include "stdafx.h"
+#include "gameOver.h"
 
 int isStarting = true;
 char *menuItems[] = {"Spiel starten", "Blaa", "Bliii", "Blubb"};
@@ -15,39 +16,36 @@ int currMenuItem = 0;               // Current menu item (to navigate through th
 int lastMenuItem = 0;               // Last menu item (for deleting no longer used triangles)
 int menuSize = 4;
 
-int xVarTriLD = 38;                 // x value for triangle tld at Player count
-int xVarTriRD = 22;                 // x value for triangle trd at Player count
-int yVarTri;                        // y value for triangle height
-
 void handleInput(char *input) {
 
-    if(strlen(input) > 0) {
+    if (strlen(input) > 0) {
         MenuInput inputDirection = convertInputToUpAndDown(input);
-        if(inputDirection == FALSE_INPUT) {
+        if (inputDirection == FALSE_INPUT) {
 
-        }
-        else if(inputDirection == ARROW_UP) {
-
-            if(currMenuItem != 0)  currMenuItem--;
-        }
-        else if(inputDirection == ARROW_DOWN) {
-            if (currMenuItem == 4) {}
+        } else if (inputDirection == ARROW_UP) {
+            if (currMenuItem != 0) currMenuItem--;
+        } else if (inputDirection == ARROW_DOWN) {
             currMenuItem++;
-        }
-        else if(inputDirection == ENTER) {
-            if(currMenuItem == 0) {
+            if (currMenuItem >= 4) currMenuItem = 0;
+        } else if (inputDirection == ENTER) {
+            if (currMenuItem == 0) {
+                isStarting = true;
                 startGame();
             }
-            if(currMenuItem == 4){
+            if (currMenuItem == 4) {
                 // End Game
+                stopGame();
             }
         }
     }
+}
 
 void makeScreenColorful () {
+    int x;
+    int yVar = 19;                          // Height of the texts on screen
+
     if(isStarting) {
-        int x;
-        int yVar = 19;                          // Height of the texts on screen
+
 
         loeschen();
 
@@ -60,77 +58,22 @@ void makeScreenColorful () {
             symbolGroesse2(x, 25, 0.3);
         }
 
-        fontSize(120);
-        text2(30, 30, "Dark Snakes");
-        textFarbe2(30, 30, WHITE);
-
-        fontSize(30);
-        text2(30, 19, "Start Game");
-        textFarbe2(30, yVar, WHITE);
-
-        text2(30, 15, "Playercount: 1");
-        textFarbe2(30, yVar-4, WHITE);
-
-        text2(30, 11, "Enemycount : 4");
-        textFarbe2(30, yVar-8, WHITE);
-
-        text2(30, 7, "Difficulty: easy");        //easy, medium, hard
-        textFarbe2(30, yVar-12, WHITE);
-
-        text2(30, 3, "Quit Game");
-        textFarbe2(30, yVar-16, WHITE);
-
         isStarting = false;
     }
-}
 
-void drawTriangleToNavigate(int currMenuItem){
+    fontSize(120);
+    text2(30, 30, "Dark Snakes");
 
-    switch (currMenuItem) {             // defines yVarTri for every menu option that is highlighted
-        case 1: {                       // and gives it to the code below the switch-statement
-            yVarTri = 16;
-            break;
-        }
-        case 2: {
-            yVarTri = 12;
-            xVarTriLD = 39;
-            xVarTriRD = 21;
-            break;
-        }
-        case 3: {
-            yVarTri = 8;
-            break;
+    fontSize(30);
+    text2(30, 19, "Start Game");
 
-        }
+    text2(30, 15, "Playercount: 1");
 
-    }
+    text2(30, 11, "Enemycount : 4");
 
-    form2(xVarTriLD, yVarTri, "tld");    // triangle left down on the right side of the option
-    hintergrund2(xVarTriLD, yVarTri, BLACK);
-    farbe2(xVarTriLD, yVarTri, YELLOW);
+    text2(30, 7, "Difficulty: easy");        //easy, medium, hard
 
-    form2(xVarTriLD, yVarTri-1, "tlu");    // triangle left up on the right side of the option
-    hintergrund2(xVarTriLD, yVarTri-1, BLACK);
-    farbe2(xVarTriLD, yVarTri-1, YELLOW);
-
-    form2(xVarTriRD, yVarTri, "trd");    // triangle right down on the right side of the option
-    hintergrund2(xVarTriRD, yVarTri, BLACK);
-    farbe2(xVarTriRD, yVarTri, YELLOW);
-
-    form2(xVarTriRD, yVarTri-1, "tru");    // triangle right up on the right side of the option
-    hintergrund2(xVarTriRD, yVarTri-1, BLACK);
-    farbe2(xVarTriRD, yVarTri-1, YELLOW);
-
-}
-
-void deleteTriangleForNoLongerUsedOption (int currMenuItem){
-
-    //Möglichkeit lastMenuItem
-
-    form2(xVarTriLD, yVarTri, "none");    // triangle left down on the right side of the option
-    form2(xVarTriLD, yVarTri-1, "none");    // triangle left up on the right side of the option
-    form2(xVarTriRD, yVarTri, "none");    // triangle right down on the right side of the option
-    form2(xVarTriRD, yVarTri-1, "none");    // triangle right up on the right side of the option
+    text2(30, 3, "Quit Game");
 
 }
 
@@ -156,9 +99,6 @@ void highlightOption (){
                 textFarbe2(30, yVar - 12, WHITE);
                 textFarbe2(30, yVar - 16, WHITE);
 
-                drawTriangleToNavigate(1);
-                deleteTriangleForNoLongerUsedOption(1);
-
                 break;}
             case 2:{                         // Enemy count
                 textFarbe2(30, yVar, WHITE);
@@ -167,9 +107,6 @@ void highlightOption (){
                 textFarbe2(30, yVar - 12, WHITE);
                 textFarbe2(30, yVar - 16, WHITE);
 
-                drawTriangleToNavigate(2);
-                deleteTriangleForNoLongerUsedOption(2);
-
                 break;}
             case 3:{                         //Difficulty level
                 textFarbe2(30, yVar, WHITE);
@@ -177,9 +114,6 @@ void highlightOption (){
                 textFarbe2(30, yVar - 8, WHITE);
                 textFarbe2(30, yVar - 12, RED);
                 textFarbe2(30, yVar - 16, WHITE);
-
-                drawTriangleToNavigate(3);
-                deleteTriangleForNoLongerUsedOption(3);
 
                 break;}
             case 4:{                         //Quit Game
@@ -197,9 +131,8 @@ void highlightOption (){
 
 void drawMenuScreen(char *input) {
     //TODO Actually show a Menu.
-
-    makeScreenColorful();
     handleInput(input);
+    makeScreenColorful();
     highlightOption();
 }
 
