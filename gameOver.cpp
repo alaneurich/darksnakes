@@ -6,11 +6,14 @@
 #include "gameStates.h"
 #include "stdafx.h"
 
-int isStarting = true;
+int isGameOverStarting = true;
 int animCount = 0;
+int showingTimer = 0;
 
-void timeUntilNew(){
+int timeUntilNew(){
     //Wait for 5 seconds then return to title screen
+    showingTimer++;
+    return showingTimer * 16 >= 5000;
 }
 
 void animateYouDead (){
@@ -21,11 +24,10 @@ void animateYouDead (){
 }
 
 void drawGameOverScreen(char *input) {
-    //TODO Actually show Game Over Screen.
     int x;
     int y;
 
-    if(isStarting) {
+    if(isGameOverStarting) {
 
         loeschen();
         groesse (60, 60);
@@ -41,22 +43,19 @@ void drawGameOverScreen(char *input) {
 
         textFarbe2(30, 30, RED);
 
-        isStarting = false;
+        isGameOverStarting = false;
     }
 
     animateYouDead();
-    timeUntilNew();
+    if(timeUntilNew()) {
+        startNextGameWithNewOptions();
+    };
 }
 
 void stopGame() {
     isMenuShowing = false;
     isGameStarted = false;
     isGameOverScreenShowing = false;
-}
-
-void startNextGame() {
-    stopGame();
-    isGameStarted = true;
 }
 
 void startNextGameWithNewOptions() {
