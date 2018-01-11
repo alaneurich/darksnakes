@@ -83,11 +83,13 @@ int handleInput(char *input) {
             if (currMenuItem != 0) {
                 currMenuItem--;
                 highlightOption();
+                hadVariableChange = true;
             }
         } else if (inputDirection == ARROW_DOWN) {
             currMenuItem++;
             if (currMenuItem >= 5) currMenuItem = 0;
             highlightOption();
+            hadVariableChange = true;
         } else if (inputDirection == ENTER) {
             if (currMenuItem == 0) {
                 setGameVars(PlayerCount, EnemyCount, Difficulty);
@@ -170,8 +172,6 @@ void makeScreenColorful () {
         text2(30, 19, "Start Game");
 
         text2(30, 3, "Quit Game");
-
-        isStarting = false;
     }
 
     if(hadVariableChange) {
@@ -184,18 +184,28 @@ void makeScreenColorful () {
                  isPlayercountText ? " >" : "");
         text2(30, 15, playercountText);
 
+        int isEnemycountText = currMenuItem == 2;
         char enemycountText[256];
-        snprintf(enemycountText, sizeof(enemycountText), "Enemycount: %d", EnemyCount);
+        snprintf(enemycountText, sizeof(enemycountText), "%sEnemycount: %d%s",
+                 isEnemycountText ? "< " : "",
+                 EnemyCount,
+                 isEnemycountText ? " >" : "");
         text2(30, 11, enemycountText);
 
+        int isDifficultyText = currMenuItem == 3;
         char difficultyText[256];
-        snprintf(difficultyText, sizeof(difficultyText), "Difficulty: %s",
-                 Difficulty == 150 ? "Easy" : Difficulty == 100 ? "Medium" : "Hard");
+        snprintf(difficultyText, sizeof(difficultyText), "%sDifficulty: %s%s",
+                 isDifficultyText ? "< " : "",
+                 Difficulty == 150 ? "Easy" : Difficulty == 100 ? "Medium" : "Hard",
+                 isDifficultyText ? " >" : "");
         text2(30, 7, difficultyText);
         hadVariableChange = false;
     }
 
-    if(isStarting) highlightOption();
+    if(isStarting) {
+        highlightOption();
+        isStarting = false;
+    }
 
 }
 
