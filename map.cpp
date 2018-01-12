@@ -34,13 +34,9 @@ void setRandomPositionForSnakes(struct Snake *snakes, int count) {
 }
 
 int isCollidingPoint(int x, int y, int excludeIndex) {
-    int index = 0;
     for (int a = 0; a < gPlayerCount + gEnemyCount; a++) {
         Snake *combSnake = &gSnakes[a];
-        if (excludeIndex == index) {
-            index++;
-            continue;
-        }
+        if (excludeIndex == a) continue;
         for (int b = 0; b < (*combSnake).currSize; b++) {
             if (((*combSnake).positions[b][0] == x ||
                  (*combSnake).positions[b][0] == x + 1 ||
@@ -51,7 +47,6 @@ int isCollidingPoint(int x, int y, int excludeIndex) {
                 return true;
             }
         }
-        index++;
     }
     return false;
 }

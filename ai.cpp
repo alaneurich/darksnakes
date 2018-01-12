@@ -45,7 +45,8 @@ Direction getBestDirection(struct Snake *snake, int index) {
         } else if (!needsUp && canGoDown) {
             return DOWN;
         }
-    } else {
+    }
+    if(needsRight != -1){
         if (needsRight && canGoRight) {
             return RIGHT;
         } else if (!needsRight && canGoLeft) {
