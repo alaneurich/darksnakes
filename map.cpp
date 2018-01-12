@@ -10,14 +10,14 @@ int getRandomPos() {
     return rand() % BOARD_SIZE;
 }
 
-void setRandomPositionForSnake(Snake *snake, int isPlayer, int index) {
+void setRandomPositionForSnake(Snake *snake, int index) {
     (*snake).currDirection = RIGHT;
     int randPos = -1;
     while (randPos == -1) {
         randPos = getRandomPos();
         if (randPos + 1 == BOARD_SIZE ||
-            isCollidingPoint(randPos, randPos, isPlayer, index) ||
-            isCollidingPoint(randPos + 1, randPos, isPlayer, index)) {
+            isCollidingPoint(randPos, randPos, index) ||
+            isCollidingPoint(randPos + 1, randPos, index)) {
             randPos = -1;
         }
     }
@@ -27,37 +27,27 @@ void setRandomPositionForSnake(Snake *snake, int isPlayer, int index) {
     (*snake).positions[1][1] = randPos;
 }
 
-void setRandomPositionForSnakes(struct Snake *snakes, int count, int isPlayer) {
+void setRandomPositionForSnakes(struct Snake *snakes, int count) {
     for (int a = 0; a < count; a++) {
-        setRandomPositionForSnake(&snakes[a], isPlayer, a);
+        setRandomPositionForSnake(&snakes[a], a);
     }
 }
 
-int isCollidingPoint(int x, int y, int isPlayer, int excludeIndex) {
-    struct Snake *combSnakes[gPlayerCount + gEnemyCount];
-    for(int a = 0; a < gPlayerCount; a++) {
-        combSnakes[a] = &gPlayerSnakes[a];
-    }
-    int enemySnakeIndex = 0;
-    for (int b = 0 + gPlayerCount; b < gEnemyCount + gPlayerCount; b++) {
-        combSnakes[b] = &gEnemySnakes[enemySnakeIndex];
-        enemySnakeIndex++;
-    }
+int isCollidingPoint(int x, int y, int excludeIndex) {
     int index = 0;
-    if(!isPlayer) excludeIndex += gPlayerCount;
-    for (int c = 0; c < gPlayerCount + gEnemyCount; c++) {
-        Snake *combSnake = combSnakes[c];
+    for (int a = 0; a < gPlayerCount + gEnemyCount; a++) {
+        Snake *combSnake = &gSnakes[a];
         if (excludeIndex == index) {
             index++;
             continue;
         }
-        for (int d = 0; d < (*combSnake).currSize; d++) {
-            if (((*combSnake).positions[d][0] == x ||
-                 (*combSnake).positions[d][0] == x + 1 ||
-                 (*combSnake).positions[d][0] == x - 1) &&
-                ((*combSnake).positions[d][1] == y ||
-                 (*combSnake).positions[d][1] == y + 1 ||
-                 (*combSnake).positions[d][1] == y - 1)) {
+        for (int b = 0; b < (*combSnake).currSize; b++) {
+            if (((*combSnake).positions[b][0] == x ||
+                 (*combSnake).positions[b][0] == x + 1 ||
+                 (*combSnake).positions[b][0] == x - 1) &&
+                ((*combSnake).positions[b][1] == y ||
+                 (*combSnake).positions[b][1] == y + 1 ||
+                 (*combSnake).positions[b][1] == y - 1)) {
                 return true;
             }
         }

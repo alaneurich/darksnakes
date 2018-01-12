@@ -29,6 +29,7 @@ struct Snake {
     int currSize = 2;
     Direction currDirection;
     int active = true;
+    int isPlayer = false;
 };
 
 #endif //DARKSNAKESTEST_SNAKETYPES_H

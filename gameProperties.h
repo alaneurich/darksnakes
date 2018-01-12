@@ -9,8 +9,7 @@
 
 #include "snakeTypes.h"
 
-extern struct Snake* gPlayerSnakes;
-extern struct Snake* gEnemySnakes;
+extern struct Snake* gSnakes;
 extern int gCurrRewardPos[2];
 extern int gTurnTimeMs;
 extern int gEnemyCount;

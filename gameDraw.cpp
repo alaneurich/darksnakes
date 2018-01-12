@@ -15,23 +15,22 @@ void setupDraw() {
     farben(BLUE);
 }
 
-void initialSnakeDraw(struct Snake *snakes, int isPlayer, int count) {
+void initialSnakeDraw(struct Snake *snakes, int count) {
     for (int a = 0; a < count; a++) {
         Snake *snake = &snakes[a];
         for (int b = 0; b < (*snake).currSize; b++) {
-            if(isPlayer) {
-                int color = b == 0 ? RED : YELLOW;
+            if((*snake).isPlayer) {
+                int color = a == 0 ? RED : GREEN;
                 drawSnakePart((*snake).positions[b][0], (*snake).positions[b][1], color);
             } else {
-                drawSnakePart((*snake).positions[b][0], (*snake).positions[b][1], BEIGE);
+                drawSnakePart((*snake).positions[b][0], (*snake).positions[b][1], WHITE);
             }
         }
     }
 }
 
-void initialDraw(struct Snake *playerSnakes, struct Snake *enemySnakes) {
-    initialSnakeDraw(playerSnakes, true, gPlayerCount);
-    initialSnakeDraw(enemySnakes, false, gEnemyCount);
+void initialDraw(struct Snake *playerSnakes) {
+    initialSnakeDraw(playerSnakes, gPlayerCount + gEnemyCount);
 }
 
 void drawSnakePart(int x, int y, int color) {
@@ -44,6 +43,14 @@ void drawReward(int x, int y) {
 
 void resetField(int x, int y) {
     farbe2(x, y, BLUE);
+}
+
+int isCollidingWithOtherSnake(struct Snake *tmpSnake, int isPlayer, int snakeIndex) {
+    int xPos = (*tmpSnake).positions[(*tmpSnake).currSize - 1][0];
+    int yPos = (*tmpSnake).positions[(*tmpSnake).currSize - 1][1];
+    for(int a = 0; a < gPlayerCount; a++) {
+
+    }
 }
 
 SnakeMoveResult moveSnake(struct Snake *tmpSnake, int color, const int currRewardPos[]) {

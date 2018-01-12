@@ -22,7 +22,7 @@ void crossPlatformSleep(int sleepTime) {
 int main() {
     srand(time(NULL));
     char *currInput;
-    long long currTime = 0;
+    long long currTime;
     while(isMenuShowing || isGameStarted || isGameOverScreenShowing) {
         currTime = timeMs();
         if (currTime - lastFrameTime >= SIXTY_FPS_IN_MS) {
@@ -36,7 +36,7 @@ int main() {
             else if(isGameOverScreenShowing) {
                 drawGameOverScreen(currInput);
             }
-            lastFrameTime = timeMs();
+            lastFrameTime = currTime;
         } else {
             crossPlatformSleep(lastFrameTime + 16000 - currTime);
         }

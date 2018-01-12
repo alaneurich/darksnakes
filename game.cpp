@@ -18,13 +18,11 @@ long long lastTurnTime = 0;
 int startingUp = true;
 
 void initialSetup() {
-    gPlayerSnakes = getDynamicSizedSnakeArray(gPlayerCount);
-    gEnemySnakes = getDynamicSizedSnakeArray(gEnemyCount);
+    gSnakes = getDynamicSizedSnakeArray(gPlayerCount + gEnemyCount);
 
     setupDraw();
 
-    setRandomPositionForSnakes(gPlayerSnakes, gPlayerCount, true);
-    setRandomPositionForSnakes(gEnemySnakes, gEnemyCount, false);
+    setRandomPositionForSnakes(gSnakes, gPlayerCount + gEnemyCount);
 }
 
 void putReward() {
@@ -34,7 +32,6 @@ void putReward() {
     } while(isCollidingPoint(
             gCurrRewardPos[0],
             gCurrRewardPos[1],
-            true,
             -1
     ));
 
@@ -50,7 +47,7 @@ void drawGameScreen(char *input) {
     if (strlen(input) > 0) {
         Direction newDirection = convertInputToNewDirection(input);
         if(newDirection != NONE) {
-            Snake *playerSnake = &gPlayerSnakes[getPlayerIndexByInput(input)];
+            Snake *playerSnake = &gSnakes[getPlayerIndexByInput(input)];
             int isColliding = isCollidingDirections((*playerSnake).currDirection, newDirection);
             if(!isColliding) (*playerSnake).currDirection = newDirection;
         }
@@ -59,27 +56,30 @@ void drawGameScreen(char *input) {
         if (startingUp) {
             initialSetup();
             putReward();
-            initialDraw(gPlayerSnakes, gEnemySnakes);
+            initialDraw(gSnakes);
             startingUp = false;
         } else {
             int onlyHadInactivePlayers = true;
-            for(int a = 0; a < gPlayerCount; a++) {
-                if(gPlayerSnakes[a].active) {
-                    SnakeMoveResult moveResult = moveSnake(&gPlayerSnakes[a], a == 0 ? RED : YELLOW, gCurrRewardPos);
+            int hadPlayer = false;
+            setEnemyDirections();
+            for(int a = 0; a < gPlayerCount + gEnemyCount; a++) {
+                int snakeColor = 0;
+                if(gSnakes[a].isPlayer && !hadPlayer) {
+                    snakeColor = RED;
+                    hadPlayer = true;
+                }
+                else if(gSnakes[a].isPlayer && hadPlayer) snakeColor = GREEN;
+                else snakeColor = WHITE;
+                if(gSnakes[a].active) {
+                    SnakeMoveResult moveResult = moveSnake(&gSnakes[a], snakeColor, gCurrRewardPos);
                     if(moveResult == GOT_REWARD) putReward();
-                    if(moveResult == HIT_WALL) gPlayerSnakes[a].active = false;
-                    onlyHadInactivePlayers = false;
+                    if(moveResult == HIT_WALL) gSnakes[a].active = false;
+                    if(gSnakes[a].isPlayer) onlyHadInactivePlayers = false;
                 }
             }
             if(onlyHadInactivePlayers && gPlayerCount > 0) {
                 startingUp = true;
                 finishGame();
-            }
-            setEnemyDirections();
-            for (int b = 0; b < gEnemyCount; b++) {
-                SnakeMoveResult enemyMoveResult = moveSnake(&gEnemySnakes[b], BEIGE, gCurrRewardPos);
-                if(enemyMoveResult == GOT_REWARD) putReward();
-                if(enemyMoveResult == HIT_WALL) gEnemySnakes[b].active = false;
             }
         }
         lastTurnTime = timeMs();

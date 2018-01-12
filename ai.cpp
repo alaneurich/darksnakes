@@ -18,7 +18,6 @@ int canGo(Snake *snake, Direction direction, int index) {
     return !isCollidingPoint(
             xPos,
             yPos,
-            false,
             index
     );
 }
@@ -63,6 +62,6 @@ Direction getBestDirection(struct Snake *snake, int index) {
 
 void setEnemyDirections() {
     for (int a = 0; a < gEnemyCount; a++) {
-        gEnemySnakes[a].currDirection = getBestDirection(&gEnemySnakes[a], a);
+        if(!gSnakes[a].isPlayer) gSnakes[a].currDirection = getBestDirection(&gSnakes[a], a);
     }
 }

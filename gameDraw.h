@@ -11,7 +11,7 @@ enum SnakeMoveResult{
     NOTHING
 };
 void setupDraw();
-void initialDraw(struct Snake *playerSnakes, Snake *enemySnakes);
+void initialDraw(struct Snake *playerSnakes);
 void drawSnakePart(int x, int y, int color);
 void drawReward(int x, int y);
 void resetField(int x, int y);

@@ -8,11 +8,16 @@
 
 Snake* getDynamicSizedSnakeArray(int size) {
     auto *snakes = new Snake[size];
+    int playerCount = gPlayerCount;
     for(int a = 0; a < size; a++) {
         snakes[a].positions[0][0] = 0;
         snakes[a].positions[0][1] = 0;
         snakes[a].positions[1][0] = 0;
         snakes[a].positions[1][1] = 0;
+        if(playerCount != 0) {
+            snakes[a].isPlayer = true;
+            playerCount--;
+        }
     }
     return snakes;
 }
