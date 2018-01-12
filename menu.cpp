@@ -16,10 +16,7 @@ int Difficulty = 150;
 
 
 int isStarting = true;
-char *menuItems[] = {"Spiel starten", "Blaa", "Bliii", "Blubb"};
-int currMenuItem = 0;               // Current menu item (to navigate through the menu
-int lastMenuItem = 0;               // Last menu item (for deleting no longer used triangles)
-int menuSize = 4;
+int currMenuItem = 0;
 int hadVariableChange = true;
 
 void highlightOption (){
