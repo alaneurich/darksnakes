@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "snakeTypes.h"
 #include "helpers.h"
+#include "map.h"
 
 void setupDraw() {
     loeschen();

@@ -32,7 +32,8 @@ void putReward() {
     } while(isCollidingPoint(
             gCurrRewardPos[0],
             gCurrRewardPos[1],
-            -1
+            -1,
+            false
     ));
 
     drawReward(gCurrRewardPos[0], gCurrRewardPos[1]);
@@ -71,12 +72,14 @@ void drawGameScreen(char *input) {
                 else if(gSnakes[a].isPlayer && hadPlayer) snakeColor = GREEN;
                 else snakeColor = WHITE;
                 if(gSnakes[a].active) {
+                    if(gSnakes[a].isPlayer) printf("Player is active.\n");
                     SnakeMoveResult moveResult = moveSnake(&gSnakes[a], snakeColor, gCurrRewardPos);
                     if(moveResult == GOT_REWARD) putReward();
                     if(moveResult == HIT_WALL) gSnakes[a].active = false;
                     if(gSnakes[a].isPlayer) onlyHadInactivePlayers = false;
                 }
             }
+            checkSnakeCollisions();
             if(onlyHadInactivePlayers && gPlayerCount > 0) {
                 startingUp = true;
                 finishGame();

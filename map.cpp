@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <cstdio>
 #include "map.h"
 #include "gameProperties.h"
 
@@ -16,8 +17,8 @@ void setRandomPositionForSnake(Snake *snake, int index) {
     while (randPos == -1) {
         randPos = getRandomPos();
         if (randPos + 1 == BOARD_SIZE ||
-            isCollidingPoint(randPos, randPos, index) ||
-            isCollidingPoint(randPos + 1, randPos, index)) {
+            isCollidingPoint(randPos, randPos, index, false) ||
+            isCollidingPoint(randPos + 1, randPos, index, false)) {
             randPos = -1;
         }
     }
@@ -33,20 +34,45 @@ void setRandomPositionForSnakes(struct Snake *snakes, int count) {
     }
 }
 
-int isCollidingPoint(int x, int y, int excludeIndex) {
+int isCollidingPoint(int x, int y, int excludeIndex, int isPrecise) {
     for (int a = 0; a < gPlayerCount + gEnemyCount; a++) {
-        Snake *combSnake = &gSnakes[a];
         if (excludeIndex == a) continue;
-        for (int b = 0; b < (*combSnake).currSize; b++) {
-            if (((*combSnake).positions[b][0] == x ||
-                 (*combSnake).positions[b][0] == x + 1 ||
-                 (*combSnake).positions[b][0] == x - 1) &&
-                ((*combSnake).positions[b][1] == y ||
-                 (*combSnake).positions[b][1] == y + 1 ||
-                 (*combSnake).positions[b][1] == y - 1)) {
+        Snake *snake = &gSnakes[a];
+        for (int b = 0; b < (*snake).currSize; b++) {
+            printf("Checked Snake X: %d, Checking Snake X: %d\n", (*snake).positions[b][0], x);
+            printf("Checked Snake Y: %d, Checking Snake Y: %d\n", (*snake).positions[b][1], y);
+            if(isPrecise &&
+                    (*snake).positions[b][0] == x &&
+                    (*snake).positions[b][1] == y) {
+                return true;
+            }
+            if (((*snake).positions[b][0] == x ||
+                 (*snake).positions[b][0] == x + 1 ||
+                 (*snake).positions[b][0] == x - 1)
+                &&
+                ((*snake).positions[b][1] == y ||
+                 (*snake).positions[b][1] == y + 1 ||
+                 (*snake).positions[b][1] == y - 1)) {
                 return true;
             }
         }
     }
     return false;
+}
+
+void checkSnakeCollisions() {
+    for(int a = 0; a < gPlayerCount + gEnemyCount; a++) {
+        for(int b = 0; b < gSnakes[a].currSize; b++) {
+            if(isCollidingPoint(
+                    gSnakes[a].positions[b][0],
+                    gSnakes[a].positions[b][1],
+                    a,
+                    true
+            )) {
+                gSnakes[a].active = false;
+            } else {
+
+            }
+        }
+    }
 }

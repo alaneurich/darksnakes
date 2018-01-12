@@ -8,6 +8,7 @@
 enum SnakeMoveResult{
     HIT_WALL,
     GOT_REWARD,
+    HIT_SNAKE,
     NOTHING
 };
 void setupDraw();

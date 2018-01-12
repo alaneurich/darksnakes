@@ -11,6 +11,8 @@ void setRandomPositionForSnake(struct Snake *snake, int index);
 
 void setRandomPositionForSnakes(struct Snake *snakes, int count);
 
-int isCollidingPoint(int x, int y, int excludeIndex);
+int isCollidingPoint(int x, int y, int excludeIndex, int isPrecise);
+
+void checkSnakeCollisions();
 
 #endif //DARKSNAKESTEST_MAP_H

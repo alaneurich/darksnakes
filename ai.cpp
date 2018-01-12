@@ -18,7 +18,8 @@ int canGo(Snake *snake, Direction direction, int index) {
     return !isCollidingPoint(
             xPos,
             yPos,
-            index
+            index,
+            false
     );
 }
 
