@@ -35,7 +35,6 @@ Direction getBestDirection(struct Snake *snake, int index) {
             (*snake).positions[(*snake).currSize - 1][0] == gCurrRewardPos[0] ?
             -1 :
             (*snake).positions[(*snake).currSize - 1][0] <= gCurrRewardPos[0];
-    int foundDirection = 0;
     if((*snake).currDirection == UP) canGoDown = false;
     if((*snake).currDirection == DOWN) canGoUp = false;
     if((*snake).currDirection == RIGHT) canGoLeft = false;
@@ -54,14 +53,14 @@ Direction getBestDirection(struct Snake *snake, int index) {
         }
     }
     if (canGoUp) return UP;
-    if (canGoDown) return DOWN;
-    if (canGoRight) return RIGHT;
-    if (canGoLeft) return LEFT;
+    else if (canGoDown) return DOWN;
+    else if (canGoRight) return RIGHT;
+    else if (canGoLeft) return LEFT;
     return UP;
 }
 
 void setEnemyDirections() {
-    for (int a = 0; a < gEnemyCount; a++) {
+    for (int a = 0; a < gPlayerCount + gEnemyCount; a++) {
         if(!gSnakes[a].isPlayer) gSnakes[a].currDirection = getBestDirection(&gSnakes[a], a);
     }
 }

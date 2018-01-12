@@ -12,7 +12,7 @@ void setupDraw() {
     loeschen();
     groesse(BOARD_SIZE, BOARD_SIZE);
     formen(const_cast<char *>("s"));
-    farben(BLUE);
+    farben(BLACK);
 }
 
 void initialSnakeDraw(struct Snake *snakes, int count) {
@@ -42,7 +42,7 @@ void drawReward(int x, int y) {
 }
 
 void resetField(int x, int y) {
-    farbe2(x, y, BLUE);
+    farbe2(x, y, BLACK);
 }
 
 int isCollidingWithOtherSnake(struct Snake *tmpSnake, int isPlayer, int snakeIndex) {
