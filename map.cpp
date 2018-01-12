@@ -39,8 +39,6 @@ int isCollidingPoint(int x, int y, int excludeIndex, int isPrecise) {
         if (excludeIndex == a) continue;
         Snake *snake = &gSnakes[a];
         for (int b = 0; b < (*snake).currSize; b++) {
-            printf("Checked Snake X: %d, Checking Snake X: %d\n", (*snake).positions[b][0], x);
-            printf("Checked Snake Y: %d, Checking Snake Y: %d\n", (*snake).positions[b][1], y);
             if(isPrecise &&
                     (*snake).positions[b][0] == x &&
                     (*snake).positions[b][1] == y) {
