@@ -48,6 +48,9 @@ void drawGameOverScreen(char *input) {
 
     animateYouDead();
     if(timeUntilNew()) {
+        animCount = 0;
+        showingTimer = 0;
+        isGameOverStarting = true;
         startNextGameWithNewOptions();
     };
 }

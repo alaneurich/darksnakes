@@ -93,8 +93,9 @@ int handleInput(char *input) {
         } else if (inputDirection == ENTER) {
             if (currMenuItem == 0) {
                 setGameVars(PlayerCount, EnemyCount, Difficulty);
-                startGame();
                 isStarting = true;
+                hadVariableChange = true;
+                startGame();
                 return true;
             }
             if (currMenuItem == 4) {
