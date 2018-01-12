@@ -10,9 +10,9 @@
 #include "stdafx.h"
 #include "gameOver.h"
 
-int PlayerCount = 1;
-int EnemyCount = 4;
-int Difficulty = 150;
+int playerCount = 1;
+int enemyCount = 4;
+int difficulty = 150;
 
 
 int isStarting = true;
@@ -50,7 +50,7 @@ void highlightOption (){
                 textFarbe2(30, yVar - 16, WHITE);
 
                 break;}
-            case 3:{                         //Difficulty level
+            case 3:{                         //difficulty level
                 textFarbe2(30, yVar, WHITE);
                 textFarbe2(30, yVar - 4, WHITE);
                 textFarbe2(30, yVar - 8, WHITE);
@@ -89,7 +89,7 @@ int handleInput(char *input) {
             hadVariableChange = true;
         } else if (inputDirection == ENTER) {
             if (currMenuItem == 0) {
-                setGameVars(PlayerCount, EnemyCount, Difficulty);
+                setGameVars(playerCount, enemyCount, difficulty);
                 isStarting = true;
                 hadVariableChange = true;
                 startGame();
@@ -102,41 +102,41 @@ int handleInput(char *input) {
         }
         else if (inputDirection == ARROW_LEFT) {
             if (currMenuItem == 1) {
-                if (PlayerCount != 1) {
-                    PlayerCount--;
+                if (playerCount != 1) {
+                    playerCount--;
                     hadVariableChange = true;
                 }
             }
             if (currMenuItem == 2) {
-                if (EnemyCount != 0) {
-                    EnemyCount--;
+                if (enemyCount != 0) {
+                    enemyCount--;
                     hadVariableChange = true;
                 }
             }
             if (currMenuItem == 3){
-                if (Difficulty != 150)
+                if (difficulty != 150)
                 {
-                    Difficulty+=50;
+                    difficulty+=50;
                     hadVariableChange = true;
                 }
             }
         }
         else if (inputDirection == ARROW_RIGHT){
             if(currMenuItem == 1) {
-                if (PlayerCount != 2) {
-                    PlayerCount++;
+                if (playerCount != 2) {
+                    playerCount++;
                     hadVariableChange = true;
                 }
             }
             if(currMenuItem == 2) {
-                if (EnemyCount != 6) {
-                    EnemyCount++;
+                if (enemyCount != 6) {
+                    enemyCount++;
                     hadVariableChange = true;
                 }
             }
             if(currMenuItem == 3){
-                if (Difficulty != 50) {
-                    Difficulty-=50;
+                if (difficulty != 50) {
+                    difficulty-=50;
                     hadVariableChange = true;
                 }
             }
@@ -178,7 +178,7 @@ void makeScreenColorful () {
         char playercountText[256];
         snprintf(playercountText, sizeof(playercountText), "%sPlayercount: %d%s",
                  isPlayercountText ? "< " : "",
-                 PlayerCount,
+                 playerCount,
                  isPlayercountText ? " >" : "");
         text2(30, 15, playercountText);
 
@@ -186,7 +186,7 @@ void makeScreenColorful () {
         char enemycountText[256];
         snprintf(enemycountText, sizeof(enemycountText), "%sEnemycount: %d%s",
                  isEnemycountText ? "< " : "",
-                 EnemyCount,
+                 enemyCount,
                  isEnemycountText ? " >" : "");
         text2(30, 11, enemycountText);
 
@@ -194,7 +194,7 @@ void makeScreenColorful () {
         char difficultyText[256];
         snprintf(difficultyText, sizeof(difficultyText), "%sDifficulty: %s%s",
                  isDifficultyText ? "< " : "",
-                 Difficulty == 150 ? "Easy" : Difficulty == 100 ? "Medium" : "Hard",
+                 difficulty == 150 ? "Easy" : difficulty == 100 ? "Medium" : "Hard",
                  isDifficultyText ? " >" : "");
         text2(30, 7, difficultyText);
         hadVariableChange = false;
