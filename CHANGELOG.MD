@@ -5,7 +5,7 @@ Team: Alan Eurich, Yannik Keller
 Software used: CLion, Board of Symbols
 
 
-Alan Eurich
+### Alan Eurich
 
 # 22-12-2017
 - Created project
@@ -23,12 +23,12 @@ Alan Eurich
 - Added game properties such as player count, enemy count and difficulty
 - Added function and logic to let the snake move around changing the last and the first field to the color it needs to be
 
-#9-1-2017
+# 9-1-2017
 - Added input functions and logic
 - Added random map placement for the player, enemies and food
 - Added function for main menu
 
-#10-1-2018
+# 10-1-2018
 - Changed 'textFarbe2' so it would fit the need of the project
 - Added 'fontSize' so it can be accessed via code
 - Changed 'loeschen()' so it would delete all text
@@ -38,7 +38,7 @@ Alan Eurich
 - Added cross platform sleeping function
 
 
-#11-1-2018
+# 11-1-2018
 - Added acceptance for right and left arrow for convertToUpAndDown Input
 - Fixed refresh rate of main menu
 - Added missing arrows
@@ -50,17 +50,17 @@ Alan Eurich
 - Added timer until a new game is started when in game over screen
 - Fixed minor errors and warnings
 
-#12-1-2018
+# 12-1-2018
 - Fixed important error that did not let the game start on any other computer than Alan's
 
 
-Yannik Keller
+### Yannik Keller
 
-#10-1-2018
+# 10-1-2018
 - Brought into project
 - Added main menu design: color and text
 
-#11-1-2018
+# 11-1-2018
 - Added main menu choosing options such as 'Start Game' or 'Difficulty'
 - Added game over screen background and text
 - Added triangles next to text to show that changes can be made forming an arrow
